@@ -5,7 +5,7 @@ module.exports = {
         try{
             const {book} = req.body;
             let scriptOutput = ""
-            const rec = spawn('C:/Users/alina/Documents/books2lend/books-env/Scripts/python', ['C:/Users/alina/Documents/books2lend/test2.py', `${book}`])
+            const rec = spawn(process.env.PATH_TO_PYTHON_EXE_IN_VENV, [process.env.PATH_TO_RECOMMENDER_PYTHON_FILE, `${book}`])
             
             rec.stdout.on('data', function(data) {
                 console.log('stdout: ' + data);
