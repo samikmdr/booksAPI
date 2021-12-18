@@ -4,9 +4,18 @@ const {sequelize} = require('./models');
 const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const cors = require('cors')
 
 const app = express();
 const port = '8084';
+
+app.use(cors({
+    origin: true,
+    credentials: true,
+    'X-RateLimit-Limit': true,
+    'X-RateLimit-Remaining': true,
+    'Retry-After': true
+}));
 
 const swaggerDocs = swaggerJsDoc({
     swagger: "2.0",

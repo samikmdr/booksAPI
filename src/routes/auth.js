@@ -34,14 +34,15 @@ const authController = require('../controllers/authController')
  *                      schema:
  *                          type: object
  *                          properties:
- *                              msg:
- *                                  type: string
- *                                  example: login successful
- *                              token:
- *                                  type: string
- *                                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzNzAzNDU0OCwiZXhwIjoxNjM3MTIwOTQ4fQ.naaylahy83KQC4iVqG9TYwYBxD24ewLJlK0bhrVNA1s
- *                              user:
- *                                  $ref: '#/components/schemas/User'
+ *                              success:
+ *                                  type: boolean
+ *                                  example: true
+ *                              message:
+ *                                  type: object
+ *                                  properties:
+ *                                      token:
+ *                                          type: string
+ *                                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzNzAzNDU0OCwiZXhwIjoxNjM3MTIwOTQ4fQ.naaylahy83KQC4iVqG9TYwYBxD24ewLJlK0bhrVNA1s
  *          401:
  *              description: Not authenticated
  *          403:
@@ -71,16 +72,19 @@ router.post('/login', (req, res)=>{
  *                  schema:
  *                      type: object
  *                      properties:
- *                          fname:
+ *                          full_name:
  *                              type: string
  *                              example: ram
- *                          lname:
- *                              type: string
- *                              example: ram
+ *                          phone:
+ *                              type: integer
+ *                              example: 9841223344
  *                          user_name:
  *                              type: string
  *                              example: ram
  *                          password:
+ *                              type: string
+ *                              example: ram123
+ *                          confirm_password:
  *                              type: string
  *                              example: ram123
  *                          email:
@@ -92,7 +96,17 @@ router.post('/login', (req, res)=>{
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/User'
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                                  example: true
+ *                              message:
+ *                                  type: object
+ *                                  properties:
+ *                                      token:
+ *                                          type: string
+ *                                          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzNzAzNDU0OCwiZXhwIjoxNjM3MTIwOTQ4fQ.naaylahy83KQC4iVqG9TYwYBxD24ewLJlK0bhrVNA1s
  *          401:
  *              description: Not authenticated
  *          403:

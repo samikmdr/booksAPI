@@ -1,7 +1,7 @@
 const { Sequelize} = require('sequelize');
 const fs = require('fs');
 const readline = require('readline');
-const {sequelize, Book} = require('./models');
+const {sequelize, Book} = require('./src/models');
 const { once } = require('events');
 
 
@@ -14,12 +14,12 @@ try{
     (async function processLine(){
     try {
     const rl = readline.createInterface({
-        input: fs.createReadStream(__dirname + '/BX-Books.csv'),
+        input: fs.createReadStream(__dirname + '/GoodbooksDatasetTest.csv'),
         crlfDelay: Infinity
     });
     let batch = [];
     rl.on('line', (line)=>{
-        const row = line.split('";"');
+        const row = line.split('|');
         // console.log(row)
 
         // const book = {
@@ -33,15 +33,17 @@ try{
         // image_url_l: row[7].substring(1,row[7].length-1)
         // };
 
-
+        // console.log(row[6], row[7],row[8], row[9],row[10], row[11],row[22] )
+        // console.log(typeof(row[6]), typeof(row[8]), typeof(row[9]),typeof(row[10]), typeof(row[11]),typeof(row[22]) )
         // for BX-Books.csv
         const book = {
-            isbn: row[0].substring(1,row[0].length),
-            book_title: row[1],
-            book_author: row[2],
-            year_of_publication: row[3],
-            publisher: row[4],
-            image_url_l: row[7]
+            isbn: row[6],
+            isbn13: row[7],
+            authors: row[8],
+            year_of_publication: row[9],
+            original_title: row[10],
+            title: row[11],
+            image_url: row[22]
             };
 
         // for dataset.csv

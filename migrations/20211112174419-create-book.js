@@ -11,20 +11,23 @@ module.exports = {
       isbn: {
         type: Sequelize.STRING
       },
-      book_title: {
+      isbn13: {
         type: Sequelize.STRING
       },
-      book_author: {
-        type: Sequelize.STRING
+      authors: {
+        type: Sequelize.TEXT
       },
       year_of_publication: {
         type: Sequelize.STRING
       },
-      publisher: {
-        type: Sequelize.STRING
+      original_title: {
+        type: Sequelize.TEXT
       },
-      image_url_l: {
-        type: Sequelize.STRING
+      title: {
+        type: Sequelize.TEXT
+      },
+      image_url: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

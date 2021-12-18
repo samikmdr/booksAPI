@@ -16,15 +16,24 @@ const {
  *        isbn: 
  *          type: string
  *          example: 1853262404
- *        book_title: 
+ *        isbn13: 
+ *          type: string
+ *          example: 1853262404123
+ *        title: 
  *          type: string
  *          example: Heart of Darkness
- *        book_author: 
+ *        original_title: 
+ *          type: string
+ *          example: Heart of Darkness
+ *        authors: 
  *          type: string
  *          example: Joseph Conrad
  *        year_of_publication: 
  *          type: string
  *          example: 1998
+ *        image_url: 
+ *          type: string
+ *          example: https://images.gr-assets.com/books/1447303603m/2767052.jpg
  *        createdAt: 
  *          type: string
  *          example: 2021-11-14T03:43:18.227Z
@@ -42,16 +51,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Book.hasMany(models.BookShelf, {
+        foreignKey: 'book_id'
+      })
     }
   };
   Book.init({
     isbn: DataTypes.STRING,
-    book_title: DataTypes.STRING,
-    book_author: DataTypes.STRING,
+    isbn13: DataTypes.STRING,
+    authors: DataTypes.STRING,
+    original_title: DataTypes.TEXT,
+    title: DataTypes.TEXT,
     year_of_publication: DataTypes.STRING,
-    publisher: DataTypes.STRING,
-    image_url_l: DataTypes.STRING,
+    image_url: DataTypes.TEXT,
   }, {
     sequelize,
     tableName: 'books',

@@ -42,17 +42,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.User_Role, {
+        foreignKey: 'user_id'
+      });
+      User.hasMany(models.BookShelf, {
+        foreignKey: 'user_id'
+      })
     }
   };
   User.init({
-    fname:{
+    full_name:{
       type: DataTypes.STRING,
       allowNull: false
     },
-    lname:{
-      type: DataTypes.STRING,
-      allowNull: false
+    phone:{
+      type: DataTypes.BIGINT
     },
     email:{
       type: DataTypes.STRING,

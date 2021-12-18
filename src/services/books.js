@@ -12,7 +12,7 @@ module.exports = {
         }
         if(req.query.search){
             queryOptions.where = {
-                book_title:  {
+                title:  {
                     [Sequelize.Op.like]: '%' + req.query.search + '%'
                 }
             }
@@ -41,7 +41,7 @@ module.exports = {
         };
         if(req.params.name){
             queryOptions.where = {
-                book_author:  {
+                authors:  {
                     [Sequelize.Op.like]: '%' + req.params.name + '%'
                 }
             }

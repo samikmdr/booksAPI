@@ -7,11 +7,16 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 module.exports= {
-    register(req, res) {
+    async register(req, res) {
         console.log('register service')
-        const {password} = req.body;
+        const {password, confirm_password, user_name} = req.body;
+        const oldUser = User.findOne({where:{user_name}})
+        if(oldUser)
+            return res.status(400).json({success: false, message:"Username already taken!"});
         if(!password)
-            return res.status(400).json({success: false, message:"password required!"});
+            return res.status(400).json({success: false, message:"Password required!"});
+        if(password !== confirm_password)
+            return res.status(400).json({success: false, message:"Two passwords donot match!"});
         bcrypt.genSalt(10, (error, salt)=>{
             if (error){
                 return res.status(400).json({success: false, error: error.message})}
@@ -21,8 +26,10 @@ module.exports= {
                 console.log('hash is', hash);
                 req.body.password = hash;
                 User.create(req.body)
-                .then(user =>{
-                    return res.status(200).json({success: true, message: user})
+                .then(async user =>{
+                    const payload = {userId: user.id}
+                    const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'});
+                    return res.status(200).json({success: true, message: {token: accessToken}})
                 })
                 .catch(err => res.status(400).json({success: false, message: err.message}))
             })
@@ -42,7 +49,7 @@ module.exports= {
                     return res.status(400).json({success: false, message:"Password Incorrect"})
                 const payload = {userId: user.id}
                 const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'});
-                res.status(200).json({success:true, message:"login successful", token: accessToken, user: user})
+                res.status(200).json({success:true, message:{token: accessToken}})
             });
             
         })
@@ -108,7 +115,7 @@ module.exports= {
                 from: process.env.SENDER_EMAIL,
                 to: process.env.RECEIVER_EMAIL,
                 subject: "Books api password reset",
-                text: `Hi ${user.fname}, your password reset token is ${fpSalt}`
+                text: `Hi ${user.full_name}, your password reset token is ${fpSalt}`
             }
             transport.sendMail(message, (err, info)=>{
                 if(err){
