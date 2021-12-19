@@ -10,7 +10,7 @@ module.exports= {
     async register(req, res) {
         console.log('register service')
         const {password, confirm_password, user_name} = req.body;
-        const oldUser = User.findOne({where:{user_name}})
+        const oldUser = await User.findOne({where:{user_name}})
         if(oldUser)
             return res.status(400).json({success: false, message:"Username already taken!"});
         if(!password)
