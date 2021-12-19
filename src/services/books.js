@@ -3,9 +3,11 @@ const {Book, Sequelize} = require('../models')
 
 module.exports = {
     getBooks(req, res){
+        const limit = parseInt(req.query.limit || 15);
+        const offset = ((req.query.page || 1) - 1) * (req.query.limit || 15);
         let queryOptions = {
-            limit: parseInt(req.query.limit || 15),
-            offset: ((req.query.page || 1) - 1) * (req.query.limit || 15), 
+            limit: limit,
+            offset: offset, 
             order: [
                 ['id', 'ASC']
             ]
@@ -13,12 +15,15 @@ module.exports = {
         if(req.query.search){
             queryOptions.where = {
                 title:  {
-                    [Sequelize.Op.like]: '%' + req.query.search + '%'
+                    [Sequelize.Op.like]: `%${String(req.query.search)}%`
                 }
             }
         }
-        Book.findAll(queryOptions)
-        .then(books => res.status(200).json({success:'true', message: books}))
+        Book.findAndCountAll(queryOptions)
+        .then(result =>{ 
+            result.page = parseInt(req.query.page)
+            result.totalPage = Math.ceil(result.count / limit)
+            res.status(200).json({success:'true', message: result})})
         .catch(error => res.status(400).json({err: error}))
     },
     getBookById(req, res){

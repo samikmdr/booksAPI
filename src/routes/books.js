@@ -14,15 +14,15 @@ const booksController = require('../controllers/booksController')
  *      produces:
  *          - application/json
  *      parameters:
- *        - in: path
+ *        - in: query
  *          name: page
  *          type: integer
  *          example: 1
- *        - in: path
+ *        - in: query
  *          name: limit
  *          type: integer
  *          example: 20
- *        - in: path
+ *        - in: query
  *          name: search
  *          type: integer
  *          example: The Subtle Knife
@@ -38,9 +38,21 @@ const booksController = require('../controllers/booksController')
  *                                  type: string
  *                                  example: true
  *                              message:
- *                                  type: array
- *                                  items:
- *                                      $ref: '#/components/schemas/Book'
+ *                                  type: object
+ *                                  properties:
+ *                                      rows:
+ *                                          type: array
+ *                                          items:
+ *                                              $ref: '#/components/schemas/Book'
+ *                                      count:
+ *                                          type: integer
+ *                                          example: 8000
+ *                                      page:
+ *                                          type: integer
+ *                                          example: 12
+ *                                      totalPage:
+ *                                          type: integer
+ *                                          example: 407
  *          401:
  *              description: Not authenticated
  *          403:
