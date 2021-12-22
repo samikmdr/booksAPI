@@ -34,12 +34,6 @@ const {
  *        image_url: 
  *          type: string
  *          example: https://images.gr-assets.com/books/1447303603m/2767052.jpg
- *        createdAt: 
- *          type: string
- *          example: 2021-11-14T03:43:18.227Z
- *        updatedAt: 
- *          type: string
- *          example: 2021-11-14T03:43:18.227Z
  */
 
 

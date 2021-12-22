@@ -3,7 +3,29 @@ const {
   Model
 } = require('sequelize');
 
-
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    BookShelf:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: integer
+ *          example: 1
+ *        user_id: 
+ *          type: string
+ *          example: 2
+ *        book_id: 
+ *          type: string
+ *          example: 1001
+ *        available: 
+ *          type: boolean
+ *          example: true
+ *        lend_flag: 
+ *          type: boolen
+ *          example: false
+ */
 
 module.exports = (sequelize, DataTypes) => {
   class BookShelf extends Model {
@@ -18,6 +40,9 @@ module.exports = (sequelize, DataTypes) => {
       })
       BookShelf.belongsTo(models.Book, {
           foreignKey: 'book_id'
+      })
+      BookShelf.hasMany(models.LendDetails, {
+        foreignKey: 'shelf_id'
       })
     }
   };

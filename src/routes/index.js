@@ -6,11 +6,13 @@ router.use('/auth', require('./auth'))
 
 router.use('/books', passport.authenticate('jwt',{session:false}), require('./books'))
 
-router.use('/book-recommendations', require('./recommendation'))
+router.use('/book-recommendations', passport.authenticate('jwt',{session:false}), require('./recommendation'))
 
-router.use('/book-shelf', require('./book_shelf'))
+router.use('/book-shelf', passport.authenticate('jwt',{session:false}), require('./book_shelf'))
 
-router.use('/lend', require('./lend'))
+router.use('/lend', passport.authenticate('jwt',{session:false}), require('./lend'))
+
+router.use('/borrow', passport.authenticate('jwt',{session:false}), require('./borrow'))
 
 
 router.get('/test', passport.authenticate('jwt',{session:false}), (req, res)=>{

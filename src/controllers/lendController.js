@@ -1,7 +1,7 @@
 const lendService = require('../services/lend')
 
-const lendBook = (req, res)=>{
-    lendService.lendBook(req, res)
+const borrowRequest = (req, res)=>{
+    lendService.borrowRequest(req, res)
 }
 
 const findBorrowedBooks = (req, res)=>{
@@ -12,9 +12,24 @@ const findLentBooks = (req, res)=>{
     lendService.findLentBooks(req, res)
 }
 
+const searchAvailableBook = (req, res)=>{
+    lendService.searchAvailableBook(req, res)
+}
+
+const getLendRequests = (req, res)=>{
+    lendService.getLendRequests(req, res)
+}
+
+const respond = (req, res)=>{
+    lendService.respond(req, res)
+}
+
 
 module.exports ={
-    lendBook,
+    borrowRequest,
     findBorrowedBooks,
-    findLentBooks
+    findLentBooks,
+    searchAvailableBook,
+    getLendRequests,
+    respond
 }

@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       lend_status: {
-        type: Sequelize.ENUM('0', '1', '2')
+        type: Sequelize.ENUM('-1', '0', '1', '2', '3')
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +39,10 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Lend_Details');
+    await queryInterface.dropTable('Lend_Details')
+    .then(async ()=>{
+     await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Lend_Details_lend_status";'); 
+    })
+    
   }
 };

@@ -25,12 +25,6 @@ const {
  *        user_name: 
  *          type: string
  *          example: ram123
- *        createdAt: 
- *          type: string
- *          example: 2021-11-14T03:43:18.227Z
- *        updatedAt: 
- *          type: string
- *          example: 2021-11-14T03:43:18.227Z
  */
 
 
@@ -47,6 +41,9 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.BookShelf, {
         foreignKey: 'user_id'
+      })
+      User.hasMany(models.LendDetails, {
+        foreignKey: 'borrower_id'
       })
     }
   };

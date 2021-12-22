@@ -75,6 +75,9 @@ router.get('/', (req, res)=>{
  *          - Books
  *      produces:
  *          - application/json
+ *      security: [{
+ *          jwt: []
+ *      }]
  *      parameters:
  *        - in: path
  *          name: bookId
@@ -115,6 +118,9 @@ router.get('/:id', (req, res)=>{
  *          - Books
  *      produces:
  *          - application/json
+ *      security: [{
+ *          jwt: []
+ *      }]
  *      parameters:
  *        - in: path
  *          name: isbn
@@ -154,6 +160,9 @@ router.get('/isbn/:isbn', (req, res)=>{
  *          - Books
  *      produces:
  *          - application/json
+ *      security: [{
+ *          jwt: []
+ *      }]
  *      parameters:
  *        - in: path
  *          name: author
