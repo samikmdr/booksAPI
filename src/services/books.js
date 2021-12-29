@@ -15,7 +15,7 @@ module.exports = {
         if(req.query.search){
             queryOptions.where = {
                 title:  {
-                    [Sequelize.Op.like]: `%${String(req.query.search)}%`
+                    [Sequelize.Op.iLike]: `%${String(req.query.search)}%`
                 }
             }
         }
