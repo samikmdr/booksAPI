@@ -72,7 +72,7 @@ router.post('/', (req, res)=>{
 /**
  * Get Book-shelf of user
  * @swagger
- * /book-shelf/user/{userId}:
+ * /book-shelf:
  *  get:
  *      description: Get Book-shelf of user
  *      summary: Get Book-shelf of user
@@ -129,7 +129,7 @@ router.post('/', (req, res)=>{
  *              description: Access token does not have the required permission
  *      
  */
-router.get('/user/:id', (req, res)=>{
+router.get('/', (req, res)=>{
     bookShelfController.getBookShelf(req, res)
 })
 
