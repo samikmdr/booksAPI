@@ -37,6 +37,7 @@ module.exports ={
                 model: Book
             }]
         })
-        return res.status(200).json({success: true, message: shelf})
+        const books = shelf.map(sh => sh.Book)
+        return res.status(200).json({success: true, message: books})
     }
 }

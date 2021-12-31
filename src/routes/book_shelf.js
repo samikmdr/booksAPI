@@ -102,27 +102,7 @@ router.post('/', (req, res)=>{
  *                              message:
  *                                  type: array
  *                                  items:
- *                                      type: object
- *                                      properties:
- *                                          id:
- *                                              type: integer
- *                                              example: 1
- *                                          user_id:
- *                                              type: integer
- *                                              example: 1
- *                                          book_id:
- *                                              type: integer
- *                                              example: 1001
- *                                          available:
- *                                              type: boolean
- *                                              example: false
- *                                          lend_flag:
- *                                              type: boolean
- *                                              example: true
- *                                          User:
- *                                              $ref: '#/components/schemas/User'
- *                                          Book:
- *                                              $ref: '#/components/schemas/Book'
+ *                                      $ref: '#/components/schemas/Book'
  *          401:
  *              description: Not authenticated
  *          403:
