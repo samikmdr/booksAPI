@@ -83,11 +83,6 @@ router.post('/', (req, res)=>{
  *      security: [{
  *          jwt: []
  *      }]
- *      parameters:
- *        - in: path
- *          name: userId
- *          type: integer
- *          example: 1
  *      responses:
  *          200:
  *              description: OK

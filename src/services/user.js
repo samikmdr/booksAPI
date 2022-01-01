@@ -53,7 +53,9 @@ module.exports= {
                         Name: user.full_name,
                         Username: user.username,
                         Email: user.email,
-                        Phone: user.phone
+                        Phone: user.phone,
+                        Gender: user.gender,
+                        Address: user.address
                     }
                 }
                 const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'});
