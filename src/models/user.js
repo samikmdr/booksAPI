@@ -13,12 +13,12 @@ const {
  *        id:
  *          type: integer
  *          example: 1
- *        fname: 
+ *        full_name: 
  *          type: string
- *          example: Ram
- *        lname: 
+ *          example: Ram Shrestha
+ *        phone: 
  *          type: string
- *          example: Shrestha
+ *          example: 9841223344
  *        email: 
  *          type: string
  *          example: ram@abc.com
