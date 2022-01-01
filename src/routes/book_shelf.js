@@ -23,9 +23,6 @@ const  bookShelfController = require('../controllers/bookShelfController')
  *                  schema:
  *                      type: object
  *                      properties:
- *                          user_id:
- *                              type: integer
- *                              example: 1
  *                          book_id:
  *                              type: integer
  *                              example: 1001
