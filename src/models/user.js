@@ -25,6 +25,12 @@ const {
  *        user_name: 
  *          type: string
  *          example: ram123
+ *        gender: 
+ *          type: string
+ *          example: male
+ *        address: 
+ *          type: string
+ *          example: Balaju, Kathmandu
  */
 
 

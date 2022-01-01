@@ -97,7 +97,64 @@ router.post('/', (req, res)=>{
  *                              message:
  *                                  type: array
  *                                  items:
- *                                      $ref: '#/components/schemas/Book'
+ *                                      type: object
+ *                                      properties: 
+ *                                          id:
+ *                                              type: integer
+ *                                              example: 1
+ *                                          user_id:
+ *                                              type: integer
+ *                                              example: 9
+ *                                          book_id:
+ *                                              type: integer
+ *                                              example: 4
+ *                                          available:
+ *                                              type: boolean
+ *                                              example: true
+ *                                          lend_flag:
+ *                                              type: boolean
+ *                                              example: true
+ *                                          Books:
+ *                                              $ref: '#/components/schemas/Book'
+ *                                          Requests:
+ *                                              type: array
+ *                                              items:
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      id: 
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      shelf_id:
+ *                                                          type: integer
+ *                                                          example: 12
+ *                                                      borrower_id:
+ *                                                          type: integer
+ *                                                          example: 10
+ *                                                      lend_status:
+ *                                                          type: string
+ *                                                          example: 0
+ *                                                      User:
+ *                                                           $ref: '#/components/schemas/User'
+ *                                          Lent:
+ *                                              type: array
+ *                                              items:
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      id: 
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      shelf_id:
+ *                                                          type: integer
+ *                                                          example: 12
+ *                                                      borrower_id:
+ *                                                          type: integer
+ *                                                          example: 10
+ *                                                      lend_status:
+ *                                                          type: string
+ *                                                          example: 1
+ *                                                      User:
+ *                                                           $ref: '#/components/schemas/User'
+ *                                          
  *          401:
  *              description: Not authenticated
  *          403:

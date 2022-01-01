@@ -90,6 +90,12 @@ router.post('/login', (req, res)=>{
  *                          email:
  *                              type: string
  *                              example: ram
+ *                          gender:
+ *                              type: string
+ *                              example: male
+ *                          address:
+ *                              type: string
+ *                              example: Balaju, Kathmandu
  *      responses:
  *          200:
  *              description: OK

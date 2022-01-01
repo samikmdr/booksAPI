@@ -24,8 +24,10 @@ module.exports ={
                 }
             },
             include: [{
-                model: Book
-            }]
+                model: Book,
+                attributes: {exclude: ['createdAt', 'updatedAt']}
+            }],
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         });
         return res.status(200).json({success: true, message:books})
     },
@@ -40,7 +42,7 @@ module.exports ={
             return res.status(400).json({success: false, message:"user not found"});
         if(!shelf)
             return res.status(400).json({success: false, message:"book not found"});
-        if(shelf.lend_flag)
+        if(shelf.lend_flag || !shelf.available)
             return res.status(400).json({success: false, message:"book not available for lending"});
         LendDetails.create({shelf_id, borrower_id, lend_status: '0'})
         .then(lend =>{ 

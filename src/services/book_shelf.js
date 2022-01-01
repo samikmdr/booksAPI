@@ -1,4 +1,4 @@
-const {BookShelf, User, Book, Sequelize} = require('../models')
+const {BookShelf, User,LendDetails, Book, Sequelize} = require('../models')
 const jwt = require('jsonwebtoken');
 
 function extractToken (req) {
@@ -29,15 +29,42 @@ module.exports ={
         const token = extractToken(req);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user_id = decoded.userId;
+        console.log(user_id)
+        // const shelf = await BookShelf.findAll({
+        //     where: {user_id},
+        //     include: [{
+        //         model: User
+        //     },{
+        //         model: Book
+        //     }]
+        // })
         const shelf = await BookShelf.findAll({
             where: {user_id},
-            include: [{
-                model: User
+            include:[{
+                model: LendDetails,
+                include: [{
+                    model: User,
+                    attributes: {exclude: ['password', 'createdAt', 'updatedAt']}
+                }],
+                attributes: {exclude: ['createdAt', 'updatedAt']}
             },{
-                model: Book
-            }]
+                model: Book,
+                attributes: {exclude: ['createdAt', 'updatedAt']}
+            }],
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         })
-        const books = shelf.map(sh => sh.Book)
-        return res.status(200).json({success: true, message: books})
+        let Requests = [];
+        let Lent = [];
+        for(let sh of shelf){
+            for(let ld of sh.LendDetails)
+                if(ld.lend_status=='0')
+                    Requests.push(ld)
+                else if(ld.lend_status=='1')
+                    Lent.push(ld)
+            delete sh.dataValues.LendDetails;
+            sh.dataValues.Requests = Requests;
+            sh.dataValues.Lent = Lent;
+        }
+        return res.status(200).json({success: true, message: shelf})
     }
 }
