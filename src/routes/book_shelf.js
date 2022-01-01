@@ -111,7 +111,7 @@ router.post('/', (req, res)=>{
  *                                          lend_flag:
  *                                              type: boolean
  *                                              example: true
- *                                          Books:
+ *                                          Book:
  *                                              $ref: '#/components/schemas/Book'
  *                                          Requests:
  *                                              type: array

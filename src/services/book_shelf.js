@@ -30,14 +30,6 @@ module.exports ={
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user_id = decoded.userId;
         console.log(user_id)
-        // const shelf = await BookShelf.findAll({
-        //     where: {user_id},
-        //     include: [{
-        //         model: User
-        //     },{
-        //         model: Book
-        //     }]
-        // })
         const shelf = await BookShelf.findAll({
             where: {user_id},
             include:[{
@@ -53,9 +45,9 @@ module.exports ={
             }],
             attributes: {exclude: ['createdAt', 'updatedAt']}
         })
-        let Requests = [];
-        let Lent = [];
         for(let sh of shelf){
+            let Requests = [];
+            let Lent = [];
             for(let ld of sh.LendDetails)
                 if(ld.lend_status=='0')
                     Requests.push(ld)
