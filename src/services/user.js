@@ -47,7 +47,15 @@ module.exports= {
                     return res.status(400).json({success: false, message:err.message})
                 if(!result)
                     return res.status(400).json({success: false, message:"Password Incorrect"})
-                const payload = {userId: user.id}
+                const payload = {
+                    userId: user.id,
+                    user:{
+                        Name: user.full_name,
+                        Username: user.username,
+                        Email: user.email,
+                        Phone: user.phone
+                    }
+                }
                 const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'});
                 res.status(200).json({success:true, message:{token: accessToken}})
             });

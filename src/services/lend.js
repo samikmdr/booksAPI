@@ -13,8 +13,16 @@ function extractToken (req) {
 
 module.exports ={
     async searchAvailableBook(req, res){
+        const token = extractToken(req);
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const user_id = decoded.userId;
         const books = await BookShelf.findAll({
-            where: {available: true},
+            where: {
+                available: true,
+                user_id: {
+                    [Sequelize.Op.not]: user_id
+                }
+            },
             include: [{
                 model: Book
             }]
