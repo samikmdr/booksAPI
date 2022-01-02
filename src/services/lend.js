@@ -26,6 +26,10 @@ module.exports ={
             include: [{
                 model: Book,
                 attributes: {exclude: ['createdAt', 'updatedAt']}
+            },
+            {
+                model: User,
+                attributes: {exclude: ['password','createdAt', 'updatedAt']}
             }],
             attributes: {exclude: ['createdAt', 'updatedAt']}
         });
