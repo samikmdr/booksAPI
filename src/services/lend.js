@@ -16,23 +16,59 @@ module.exports ={
         const token = extractToken(req);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user_id = decoded.userId;
-        const books = await BookShelf.findAll({
-            where: {
-                available: true,
-                user_id: {
-                    [Sequelize.Op.not]: user_id
-                }
-            },
+        console.log('user', user_id)
+        // const books = await BookShelf.findAll({
+        //     where: {
+        //         available: true,
+        //         user_id: {
+        //             [Sequelize.Op.not]: user_id
+        //         }
+        //     },
+        //     include: [{
+        //         model: Book,
+        //         attributes: {exclude: ['createdAt', 'updatedAt']}
+        //     },
+        //     {
+        //         model: User,
+        //         attributes: {exclude: ['password','createdAt', 'updatedAt']}
+        //     }],
+        //     attributes: {exclude: ['createdAt', 'updatedAt']}
+        // });
+        const books = await Book.findAll({
             include: [{
-                model: Book,
-                attributes: {exclude: ['createdAt', 'updatedAt']}
-            },
-            {
-                model: User,
-                attributes: {exclude: ['password','createdAt', 'updatedAt']}
+                model: BookShelf,
+                where: {
+                    available: true,
+                    user_id: {
+                        [Sequelize.Op.not]: user_id
+                    }
+                },
+                attributes: {exclude: ['createdAt', 'updatedAt']},
+                include: [{
+                    model: User,
+                    attributes: {exclude: ['password','createdAt', 'updatedAt']}
+                },{
+                    model: LendDetails,
+                    where: {
+                        borrower_id: user_id
+                    },
+                    required: false,
+                    attributes: {exclude: ['createdAt', 'updatedAt']}
+                }]
             }],
             attributes: {exclude: ['createdAt', 'updatedAt']}
-        });
+        })
+
+        for(let b of books){
+            let requestedFlag = false;
+            for(let bs of b.BookShelves){
+                for(let ld of bs.LendDetails){
+                    if(ld.borrower_id == user_id && ld.lend_status=='0')
+                        requestedFlag = true;
+                }
+            }
+            b.dataValues.requested = requestedFlag;
+        }
         return res.status(200).json({success: true, message:books})
     },
     async borrowRequest(req, res){

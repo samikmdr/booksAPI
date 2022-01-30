@@ -2,26 +2,21 @@ const router = require('express').Router();
 const recommendationController = require('../controllers/recommendationController')
 
 /**
- * Get book recommendations
+ * Get book recommendations by isbn
  * @swagger
- * /book-recommendations:
- *  post:
- *      description: Get book recommendations
- *      summary: Get book recommendations
+ * /book-recommendations/{isbn}:
+ *  get:
+ *      description: Get book recommendations by isbn
+ *      summary: Get book recommendations by isbn
  *      tags:
- *          - Books
+ *          - Book Recommendation
  *      produces:
  *          - application/json
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          book:
- *                              type: string
- *                              example: Wreck the Halls
+ *      parameters:
+ *        - in: path
+ *          name: isbn
+ *          type: integer
+ *          example: 739326228
  *      responses:
  *          200:
  *              description: OK
@@ -30,15 +25,19 @@ const recommendationController = require('../controllers/recommendationControlle
  *                      schema:
  *                          type: object
  *                          properties:
- *                              recommendations:
+ *                              success:
+ *                                  type: string
+ *                                  example: true
+ *                              message:
  *                                  type: array
- *                                  example: ["Repair to Her Grave (Home Repair Is Homicide)", "Wreck the Halls (Home Repair Is Homicide Mystery)", "Wreck the Halls", "The Scold's Bridle", "After Glow"]
+ *                                  items:
+ *                                      $ref: '#/components/schemas/Book'
  *          401:
  *              description: Not authenticated
  *          403:
  *              description: Access token does not have the required permission
  */
-router.post('/', (req, res)=>{
+router.get('/:isbn', (req, res)=>{
     recommendationController.getRecommendation(req, res)
 })
 

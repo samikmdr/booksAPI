@@ -27,7 +27,17 @@ module.exports= {
                 req.body.password = hash;
                 User.create(req.body)
                 .then(async user =>{
-                    const payload = {userId: user.id}
+                    const payload = {
+                    userId: user.id,
+                    user:{
+                        Name: user.full_name,
+                        Username: user.username,
+                        Email: user.email,
+                        Phone: user.phone,
+                        Gender: user.gender,
+                        Address: user.address
+                    }
+                }
                     const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'});
                     return res.status(200).json({success: true, message: {token: accessToken}})
                 })

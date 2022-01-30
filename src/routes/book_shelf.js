@@ -162,4 +162,44 @@ router.get('/', (req, res)=>{
     bookShelfController.getBookShelf(req, res)
 })
 
+/**
+ * Get recommendations according to book shelf
+ * @swagger
+ * /book-shelf/recommendations:
+ *  get:
+ *      description: Get recommendations according to book shelf
+ *      summary: Get recommendations according to book shelf
+ *      tags:
+ *          - Book-Shelf
+ *      produces:
+ *          - application/json
+ *      security: [{
+ *          jwt: []
+ *      }]
+ *      responses:
+ *          200:
+ *              description: OK
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: string
+ *                                  example: true
+ *                              message:
+ *                                  type: array
+ *                                  items:
+ *                                      $ref: '#/components/schemas/Book'
+ *                                          
+ *          401:
+ *              description: Not authenticated
+ *          403:
+ *              description: Access token does not have the required permission
+ *      
+ */
+router.get('/recommendations', (req, res)=>{
+    bookShelfController.generateRecommendations(req, res)
+})
+
 module.exports = router;

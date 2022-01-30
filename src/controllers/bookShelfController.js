@@ -7,9 +7,14 @@ const getBookShelf = (req, res)=>{
     bookShelfService.getBookShelf(req, res)
 }
 
+const generateRecommendations = (req, res)=>{
+    bookShelfService.generateRecommendations(req, res)
+}
+
 
 
 module.exports ={
     addBook,
-    getBookShelf
+    getBookShelf,
+    generateRecommendations
 }

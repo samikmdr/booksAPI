@@ -1,5 +1,7 @@
 const {BookShelf, User,LendDetails, Book, Sequelize} = require('../models')
 const jwt = require('jsonwebtoken');
+const {spawn} = require('child_process')
+
 
 function extractToken (req) {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -58,5 +60,49 @@ module.exports ={
             sh.dataValues.Lent = Lent;
         }
         return res.status(200).json({success: true, message: shelf})
+    },
+    async generateRecommendations(req, res){
+        const token = extractToken(req);
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const user_id = decoded.userId;
+        console.log(user_id)
+        const shelf = await BookShelf.findAll({
+            where: {user_id},
+            include:[{
+                model: Book,
+                attributes: {exclude: ['createdAt', 'updatedAt']}
+            }],
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        })
+        const isbnList = shelf.map(sh => sh.Book.isbn)
+        var isbnArg = '';
+        for(let il of isbnList){
+            isbnArg = isbnArg.concat(il, '|')
+        }
+        console.log('asdfasdf', `"${isbnArg.slice(0, -1)}"`)
+
+        let scriptOutput = ""
+        const rec = spawn(process.env.PATH_TO_PYTHON_EXE_IN_VENV, [process.env.PATH_TO_RECOMMENDER_PYTHON_FILE, `${isbnArg.slice(0, -1)}`])
+        
+        rec.stdout.on('data', function(data) {
+            console.log('stdout: ' + data);
+    
+            data=data.toString();
+            scriptOutput+=data;
+        });
+        rec.stderr.on('data', function(data) {
+            console.log('stderr: ' + data);
+    
+            // data=data.toString();
+            // scriptOutput+=data;
+        });
+    
+        rec.on('close', async function(code) {
+            console.log(scriptOutput) 
+            const outputRecommendation = scriptOutput.split('\r\n')
+            outputRecommendation.pop();
+            const bookRec = await Book.findAll({where: {isbn: outputRecommendation}})
+            res.status(200).json({success: true, message: bookRec})
+        });
     }
 }

@@ -33,21 +33,55 @@ const  lendController = require('../controllers/lendController')
  *                                      properties:
  *                                          id:
  *                                              type: integer
- *                                              example: 2
- *                                          user_id:
- *                                              type: integer
- *                                              example: 1
- *                                          book_id:
- *                                              type: integer
  *                                              example: 1002
- *                                          available:
+ *                                          isbn:
+ *                                              type: string
+ *                                              example: 440241898
+ *                                          isbn13:
+ *                                              type: string
+ *                                              example: 9780440241900.0
+ *                                          authors:
+ *                                              type: string
+ *                                              example: Sophie Kinsella
+ *                                          original_title:
+ *                                              type: string
+ *                                              example: Shopaholic Ties the Knot
+ *                                          title:
+ *                                              type: string
+ *                                              example: Shopaholic Ties the Knot (Shopaholic, #3)
+ *                                          year_of_publication:
+ *                                              type: string
+ *                                              example: 2002.0
+ *                                          image_url:
+ *                                              type: string
+ *                                              example: https://images.gr-assets.com/books/1371383294m/9419.jpg
+ *                                          BookShelves:
+ *                                              type: array
+ *                                              items: 
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      id:
+ *                                                          type: integer
+ *                                                          example: 2
+ *                                                      user_id:
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      book_id:
+ *                                                          type: integer
+ *                                                          example: 1002
+ *                                                      available:
+ *                                                          type: boolean
+ *                                                          example: true
+ *                                                      lend_flag:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      User:
+ *                                                          $ref: '#/components/schemas/User'
+ *                                                      LendDetails:
+ *                                                          $ref: '#/components/schemas/LendDetails'
+ *                                          requested:
  *                                              type: boolean
  *                                              example: true
- *                                          lend_flag:
- *                                              type: boolean
- *                                              example: false
- *                                          Book:
- *                                              $ref: '#/components/schemas/Book'
  *          401:
  *              description: Not authenticated
  *          403:

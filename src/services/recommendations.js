@@ -1,11 +1,15 @@
 const {spawn} = require('child_process')
+const {BookShelf, Book, Sequelize} = require('../models')
 
 module.exports = {
-    getRecommendation(req, res) {
+    async getRecommendation(req, res) {
         try{
-            const {book} = req.body;
+            // const {book} = req.body;
+            const isbn = req.params.isbn;
+            const book = await Book.findOne({where: {isbn: isbn}})
+            console.log(book);
             let scriptOutput = ""
-            const rec = spawn(process.env.PATH_TO_PYTHON_EXE_IN_VENV, [process.env.PATH_TO_RECOMMENDER_PYTHON_FILE, `${book}`])
+            const rec = spawn(process.env.PATH_TO_PYTHON_EXE_IN_VENV, [process.env.PATH_TO_RECOMMENDER_PYTHON_FILE, `${book.isbn}`])
             
             rec.stdout.on('data', function(data) {
                 console.log('stdout: ' + data);
@@ -20,10 +24,11 @@ module.exports = {
                 // scriptOutput+=data;
             });
         
-            rec.on('close', function(code) {
+            rec.on('close', async function(code) {
                 console.log(scriptOutput)
                 const outputRecommendation = scriptOutput.split('\r\n')
-                res.status(200).json({recommendations: outputRecommendation})
+                const bookRec = await Book.findAll({where: {isbn: outputRecommendation}})
+                res.status(200).json({success: true, message: bookRec})
             });
         }
         catch(err){
