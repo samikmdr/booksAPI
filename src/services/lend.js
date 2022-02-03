@@ -186,7 +186,7 @@ module.exports ={
             else{
                 lend.update({lend_status:'-1'})
                 .then(async result =>{
-                    await BookShelf.update({lend_flag: false},{where: {id: lend.shelf_id}})
+                    await BookShelf.update({available: true, lend_flag: false},{where: {id: lend.shelf_id}})
                     return res.status(200).json({success: true, message: 'Lend Request Rejected'})
                 })
                 .catch(err => res.status(400).json({success: false, message:err.message}))
