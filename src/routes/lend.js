@@ -2,12 +2,12 @@ const router = require('express').Router();
 const  lendController = require('../controllers/lendController')
 
 /**
- * Find list of lent books [get bookshelf ma ni auxa hai yo]
+ * Find list of lent books
  * @swagger
  * /lend:
  *  get:
  *      description: Find list of lent books
- *      summary: Find list of lent books
+ *      summary: Find list of lent books [get bookshelf ma ni auxa hai yo]
  *      tags:
  *          - Lend
  *      produces:
@@ -78,12 +78,12 @@ router.get('/', (req, res)=>{
 
 
 /**
- * Book lend requests [get bookshelf ma ni auxa hai yo]
+ * Book lend requests
  * @swagger
  * /lend/requests:
  *  get:
  *      description: List of book lend requests (from other users)
- *      summary: List of book lend requests
+ *      summary: List of book lend requests [get bookshelf ma ni auxa hai yo]
  *      tags:
  *          - Lend
  *      produces:
@@ -211,12 +211,12 @@ router.post('/respond/:id', (req, res)=>{
 })
 
 /**
- * List of accepted book lend requests (requests accepted by you) [get bookshelf ma ni auxa hai yo]
+ * List of accepted book lend requests
  * @swagger
  * /lend/requests/accepted:
  *  get:
  *      description: List of accepted book lend requests (requests accepted by you)
- *      summary: List of accepted book lend requests (requests accepted by you)
+ *      summary: List of accepted book lend requests [get bookshelf ma ni auxa hai yo]
  *      tags:
  *          - Lend
  *      produces:
@@ -333,94 +333,14 @@ router.patch('/request-lend-confirmation/:id', (req, res)=>{
     lendController.sendLendConfirmationRequest(req, res)
 })
 
-/**
- * List of accepted book lend requests (requests accepted by you)
- * @swagger
- * /lend/requests/accepted:
- *  get:
- *      description: List of accepted book lend requests (requests accepted by you)
- *      summary: List of accepted book lend requests (requests accepted by you)
- *      tags:
- *          - Lend
- *      produces:
- *          - application/json
- *      security: [{
- *          jwt: []
- *      }]
- *      responses:
- *          200:
- *              description: OK
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              success:
- *                                  type: string
- *                                  example: true
- *                              message:
- *                                  type: array
- *                                  items:
- *                                      type: object
- *                                      properties:
- *                                          id:
- *                                              type: integer
- *                                              example: 1
- *                                          user_id:
- *                                              type: integer
- *                                              example: 1
- *                                          book_id:
- *                                              type: integer
- *                                              example: 1001
- *                                          available:
- *                                              type: boolean
- *                                              example: false
- *                                          lend_flag:
- *                                              type: boolean
- *                                              example: false
- *                                          LendDetails:
- *                                              type: array
- *                                              items:
- *                                                  type: object
- *                                                  properties:
- *                                                      id:
- *                                                          type: integer
- *                                                          example: 1
- *                                                      shelf_id:
- *                                                          type: integer
- *                                                          example: 2
- *                                                      borrower_id:
- *                                                          type: integer
- *                                                          example: 2
- *                                                      lend_status:
- *                                                          type: string
- *                                                          example: 1
- *                                                      pending_lend_confirmation:
- *                                                          type: boolean
- *                                                          example: false
- *                                                      pending_return_confirmation:
- *                                                          type: boolean
- *                                                          example: false
- *                                                      User:
- *                                                          $ref: '#/components/schemas/User'
- *                                          Book:
- *                                              $ref: '#/components/schemas/Book'
- *          401:
- *              description: Not authenticated
- *          403:
- *              description: Access token does not have the required permission
- */
-router.get('/requests/accepted', (req, res)=>{
-    lendController.viewAcceptedRequests(req, res)
-})
 
 /**
- * List of book return confirmation requests [get bookshelf ma ni auxa hai yo]
+ * List of book return confirmation requests
  * @swagger
  * /lend/return-requests:
  *  get:
  *      description: List of book return confirmation requests
- *      summary: List of book return confirmation requests
+ *      summary: List of book return confirmation requests [get bookshelf ma ni auxa hai yo]
  *      tags:
  *          - Lend
  *      produces:
