@@ -50,14 +50,26 @@ module.exports ={
         for(let sh of shelf){
             let Requests = [];
             let Lent = [];
+            let Accepted = [];
+            let ReturnRequests = [];
             for(let ld of sh.LendDetails)
+                // if(ld.lend_status=='0')
+                //     Requests.push(ld)
+                // else if(ld.lend_status=='1')
+                //     Lent.push(ld)
                 if(ld.lend_status=='0')
                     Requests.push(ld)
                 else if(ld.lend_status=='1')
+                    Accepted.push(ld)
+                else if(ld.lend_status=='2')
                     Lent.push(ld)
+                else if(ld.lend_status=='2' && ld.pending_return_confirmation==true)
+                    ReturnRequests.push(ld)
             delete sh.dataValues.LendDetails;
             sh.dataValues.Requests = Requests;
             sh.dataValues.Lent = Lent;
+            sh.dataValues.Accepted = Accepted;
+            sh.dataValues.ReturnRequests = ReturnRequests;
         }
         return res.status(200).json({success: true, message: shelf})
     },

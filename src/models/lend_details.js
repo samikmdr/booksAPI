@@ -43,7 +43,9 @@ module.exports = (sequelize, DataTypes) => {
   LendDetails.init({
     shelf_id: DataTypes.INTEGER,
     borrower_id: DataTypes.INTEGER, 
-    lend_status: DataTypes.ENUM('-1', '0', '1', '2'),
+    lend_status: DataTypes.ENUM('-1', '0', '1', '2', '3'),
+    pending_lend_confirmation: DataTypes.BOOLEAN,
+    pending_return_confirmation: DataTypes.BOOLEAN
   }, {
     sequelize,
     tableName: 'Lend_Details',

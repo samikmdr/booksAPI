@@ -4,6 +4,7 @@ const {BookShelf, Book, Sequelize} = require('../models')
 module.exports = {
     async getRecommendation(req, res) {
         try{
+            console.log('recommendationnnnnnn')
             // const {book} = req.body;
             const isbn = req.params.isbn;
             const book = await Book.findOne({where: {isbn: isbn}})

@@ -123,13 +123,44 @@ router.post('/', (req, res)=>{
  *                                                          example: 1
  *                                                      shelf_id:
  *                                                          type: integer
- *                                                          example: 12
+ *                                                          example: 1
  *                                                      borrower_id:
  *                                                          type: integer
  *                                                          example: 10
  *                                                      lend_status:
  *                                                          type: string
  *                                                          example: 0
+ *                                                      pending_lend_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      pending_return_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      User:
+ *                                                           $ref: '#/components/schemas/User'
+ *                                          Accepted:
+ *                                              type: array
+ *                                              items:
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      id: 
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      shelf_id:
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      borrower_id:
+ *                                                          type: integer
+ *                                                          example: 10
+ *                                                      lend_status:
+ *                                                          type: string
+ *                                                          example: 1
+ *                                                      pending_lend_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      pending_return_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
  *                                                      User:
  *                                                           $ref: '#/components/schemas/User'
  *                                          Lent:
@@ -142,13 +173,44 @@ router.post('/', (req, res)=>{
  *                                                          example: 1
  *                                                      shelf_id:
  *                                                          type: integer
- *                                                          example: 12
+ *                                                          example: 1
  *                                                      borrower_id:
  *                                                          type: integer
  *                                                          example: 10
  *                                                      lend_status:
  *                                                          type: string
+ *                                                          example: 2
+ *                                                      pending_lend_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      pending_return_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      User:
+ *                                                           $ref: '#/components/schemas/User'
+ *                                          ReturnRequests:
+ *                                              type: array
+ *                                              items:
+ *                                                  type: object
+ *                                                  properties:
+ *                                                      id: 
+ *                                                          type: integer
  *                                                          example: 1
+ *                                                      shelf_id:
+ *                                                          type: integer
+ *                                                          example: 1
+ *                                                      borrower_id:
+ *                                                          type: integer
+ *                                                          example: 10
+ *                                                      lend_status:
+ *                                                          type: string
+ *                                                          example: 2
+ *                                                      pending_lend_confirmation:
+ *                                                          type: boolean
+ *                                                          example: false
+ *                                                      pending_return_confirmation:
+ *                                                          type: boolean
+ *                                                          example: true
  *                                                      User:
  *                                                           $ref: '#/components/schemas/User'
  *                                          
