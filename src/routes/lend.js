@@ -2,7 +2,7 @@ const router = require('express').Router();
 const  lendController = require('../controllers/lendController')
 
 /**
- * Find list of lent books
+ * Find list of lent books [get bookshelf ma ni auxa hai yo]
  * @swagger
  * /lend:
  *  get:
@@ -78,7 +78,7 @@ router.get('/', (req, res)=>{
 
 
 /**
- * Book lend requests
+ * Book lend requests [get bookshelf ma ni auxa hai yo]
  * @swagger
  * /lend/requests:
  *  get:
@@ -211,7 +211,7 @@ router.post('/respond/:id', (req, res)=>{
 })
 
 /**
- * List of accepted book lend requests (requests accepted by you)
+ * List of accepted book lend requests (requests accepted by you) [get bookshelf ma ni auxa hai yo]
  * @swagger
  * /lend/requests/accepted:
  *  get:
@@ -415,7 +415,7 @@ router.get('/requests/accepted', (req, res)=>{
 })
 
 /**
- * List of book return confirmation requests
+ * List of book return confirmation requests [get bookshelf ma ni auxa hai yo]
  * @swagger
  * /lend/return-requests:
  *  get:
