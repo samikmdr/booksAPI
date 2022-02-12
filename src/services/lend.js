@@ -379,6 +379,7 @@ module.exports ={
             if(accept_request){
                 lend.update({lend_status:'3', pending_return_confirmation: false})
                 .then(async result =>{
+                    await BookShelf.update({available: true, lend_flag:false},{where: {id: lend.shelf_id}})
                     return res.status(200).json({success: true, message: 'Book return confirmed'})
                 })
             }
