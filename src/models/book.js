@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Book.init({
+    book_id: DataTypes.INTEGER,
     isbn: DataTypes.STRING,
     isbn13: DataTypes.STRING,
     authors: DataTypes.STRING,
@@ -58,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.TEXT,
     year_of_publication: DataTypes.STRING,
     image_url: DataTypes.TEXT,
+    nepali_book: DataTypes.BOOLEAN
   }, {
     sequelize,
     tableName: 'books',

@@ -24,6 +24,9 @@ module.exports ={
             return res.status(400).json({success: false, message:"user not found"});
         if(!book)
             return res.status(400).json({success: false, message:"book not found"});
+        const oldValues = await BookShelf.findOne({where: {user_id, book_id}})
+        if(oldValues)
+            return res.status(400).json({success: false, message:"book already added to bookshelf"});
         const shelf = await BookShelf.create({user_id, book_id,available: true, lend_flag:false})
         return res.status(200).json({success: true, message: shelf})
     },
@@ -61,8 +64,11 @@ module.exports ={
                     Requests.push(ld)
                 else if(ld.lend_status=='1')
                     Accepted.push(ld)
-                else if(ld.lend_status=='2')
+                else if(ld.lend_status=='2'){
                     Lent.push(ld)
+                    if(ld.pending_return_confirmation==true)
+                        ReturnRequests.push(ld)
+                }
                 else if(ld.lend_status=='2' && ld.pending_return_confirmation==true)
                     ReturnRequests.push(ld)
             delete sh.dataValues.LendDetails;
@@ -82,10 +88,15 @@ module.exports ={
             where: {user_id},
             include:[{
                 model: Book,
-                attributes: {exclude: ['createdAt', 'updatedAt']}
+                attributes: {exclude: ['createdAt', 'updatedAt']},
+                where: {
+                    nepali_book: false
+                }
             }],
             attributes: {exclude: ['createdAt', 'updatedAt']}
         })
+        if(shelf.length < 1)
+            return res.status(400).json({success: false, message:"bookshelf empty"});
         const isbnList = shelf.map(sh => sh.Book.isbn)
         var isbnArg = '';
         for(let il of isbnList){

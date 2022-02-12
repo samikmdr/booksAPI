@@ -1,7 +1,6 @@
 const {BookShelf,LendDetails, User, Book, Sequelize} = require('../models')
 const jwt = require('jsonwebtoken');
 
-
 function extractToken (req) {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         return req.headers.authorization.split(' ')[1];
@@ -76,10 +75,7 @@ module.exports ={
         const token = extractToken(req);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const borrower_id = decoded.userId;
-        const user = await User.findByPk(borrower_id);
         const shelf = await BookShelf.findByPk(shelf_id);
-        if(!user)
-            return res.status(400).json({success: false, message:"user not found"});
         if(!shelf)
             return res.status(400).json({success: false, message:"book not found"});
         if(shelf.lend_flag || !shelf.available)
@@ -87,6 +83,13 @@ module.exports ={
         const oldLendDetails = await LendDetails.findOne({where: {shelf_id: shelf_id, lend_status: ['1', '2']}})
         if(oldLendDetails)
             return res.status(400).json({success: false, message: "book not available for lending"})
+        const rejectedRequest = await LendDetails.findOne({where: {
+            borrower_id,
+            shelf_id,
+            lend_status: '-1'
+        }})
+        if(rejectedRequest)
+            return res.status(400).json({success: false, message: "Book request was previously rejected."})
         LendDetails.create({shelf_id, borrower_id, lend_status: '0'})
         .then(lend =>{ 
             // shelf.update({lend_flag: true})
@@ -247,8 +250,9 @@ module.exports ={
                 return res.status(400).json({success: false, message: "Lend request not found"})
             if(lend.lend_status == '1'){
                 const updatedLend = lend.pending_lend_confirmation? lend :  await lend.update({pending_lend_confirmation: true})
-                if(updatedLend)
+                if(updatedLend){
                     return res.status(200).json({success: true, message: 'Lend confirmation request sent.'});
+                }
             }
             else{
                 return res.status(400).json({success: false, message: "Lend request is not in accepted state."})
@@ -300,14 +304,13 @@ module.exports ={
                     return res.status(200).json({success: true, message: 'Book received and confirmed'})
                 })
             }
-            // else{
-            //     lend.update({lend_status:'-1'})
-            //     .then(async result =>{
-            //         await BookShelf.update({available: true, lend_flag: false},{where: {id: lend.shelf_id}})
-            //         return res.status(200).json({success: true, message: 'Lend Request Rejected'})
-            //     })
-            //     .catch(err => res.status(400).json({success: false, message:err.message}))
-            // }
+            else{
+                lend.update({pending_lend_confirmation: false})
+                .then(async result =>{
+                    return res.status(200).json({success: true, message: 'Book Lend Request Rejected'})
+                })
+                .catch(err => res.status(400).json({success: false, message:err.message}))
+            }
         }
         catch(err){
             return res.status(500).json({success: false, message:err.message});
@@ -376,18 +379,16 @@ module.exports ={
             if(accept_request){
                 lend.update({lend_status:'3', pending_return_confirmation: false})
                 .then(async result =>{
-                    await BookShelf.update({available: true, lend_flag: false},{where: {id: lend.shelf_id}})
                     return res.status(200).json({success: true, message: 'Book return confirmed'})
                 })
             }
-            // else{
-            //     lend.update({lend_status:'-1'})
-            //     .then(async result =>{
-            //         await BookShelf.update({available: true, lend_flag: false},{where: {id: lend.shelf_id}})
-            //         return res.status(200).json({success: true, message: 'Lend Request Rejected'})
-            //     })
-            //     .catch(err => res.status(400).json({success: false, message:err.message}))
-            // }
+            else{
+                lend.update({pending_return_confirmation: false})
+                .then(async result =>{
+                    return res.status(200).json({success: true, message: 'Lend Request Rejected'})
+                })
+                .catch(err => res.status(400).json({success: false, message:err.message}))
+            }
         }
         catch(err){
             return res.status(500).json({success: false, message:err.message});
